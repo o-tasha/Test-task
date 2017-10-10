@@ -30,34 +30,42 @@ class RegistrationForm extends Model
         return [
             [['fio', 'email'], 'required'],
 
-            ['inn', 'required', 'when' => function ($model) {
-                                            return in_array($model->organizationForm, [self::SELF_EMPLOYED, self::LEGAL_PERSONALITY]);
-                                          },
-                                'whenClient' => "function (attribute, value) {
-                                                    var orgForm = $('input[name=\"RegistrationForm[organizationForm]\"]:checked').val();
-                                                    var condition = (orgForm == " . self::SELF_EMPLOYED." || orgForm == " . self::LEGAL_PERSONALITY.");
-                                                    return condition;}"],
+            ['inn', 'required',
+                'when' => function ($model) {
+                            return in_array($model->organizationForm, [self::SELF_EMPLOYED, self::LEGAL_PERSONALITY]);
+                          },
+                'whenClient' => "function (attribute, value) {
+                                    var orgForm = $('input[name=\"RegistrationForm[organizationForm]\"]:checked').val();
+                                    var condition = (orgForm == " . self::SELF_EMPLOYED." || orgForm == " . self::LEGAL_PERSONALITY.");
+                                    return condition;
+                                 }"
+            ],
 
-            ['organizationForm', 'required', 'whenClient' => "function (attribute, value) {
-                                    if (value == " . self::LEGAL_PERSONALITY . ") {
-                                        $('.field-registrationform-organizationname').show();
-                                    }
-                                    else {
-                                        $('.field-registrationform-organizationname').hide();
-                                    }
-                                    if (value == " . self::NATURAL_PERSON . ") {
-                                        $('.field-registrationform-inn').hide();
-                                    }
-                                    else {
-                                        $('.field-registrationform-inn').show();
-                                    }
-                                    return true;}"],
+            ['organizationForm', 'required',
+                    'whenClient' => "function (attribute, value) {
+                                        if (value == " . self::LEGAL_PERSONALITY . ") {
+                                            $('.field-registrationform-organizationname').show();
+                                        }
+                                        else {
+                                            $('.field-registrationform-organizationname').hide();
+                                        }
+                                        if (value == " . self::NATURAL_PERSON . ") {
+                                            $('.field-registrationform-inn').hide();
+                                        }
+                                        else {
+                                            $('.field-registrationform-inn').show();
+                                        }
+                                        return true;
+                                    }"
+            ],
 
-            ['organizationName', 'required', 'when' => function ($model) {
-                                                            return in_array($model->organizationForm, [self::LEGAL_PERSONALITY]);
-                                                        },
-                                             'whenClient' => "function (attribute, value) {
-                                                                return $('input[name=\"RegistrationForm[organizationForm]\"]:checked').val() == " . self::LEGAL_PERSONALITY . ";}"],
+            ['organizationName', 'required',
+                'when' => function ($model) {
+                              return in_array($model->organizationForm, [self::LEGAL_PERSONALITY]);
+                          },
+                'whenClient' => "function (attribute, value) {
+                              return $('input[name=\"RegistrationForm[organizationForm]\"]:checked').val() == " . self::LEGAL_PERSONALITY . ";}"
+            ],
 
             // email has to be a valid email address
             ['email', 'email'],
