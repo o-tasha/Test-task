@@ -31,7 +31,7 @@ CREATE TABLE `diseases` (
 CREATE TABLE `drug_disease` (
   `catalog_drug_id` int(11) NOT NULL,
   `disease_id` int(11) NOT NULL,
-  PRIMARY KEY (`drug_id`,`disease_id`),
+  PRIMARY KEY (`catalog_drug_id`,`disease_id`),
   FOREIGN KEY (catalog_drug_id) REFERENCES catalog_drugs(id),
   FOREIGN KEY (disease_id) REFERENCES diseases(id)
 )
